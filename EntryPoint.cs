@@ -37,7 +37,7 @@ namespace Opticom
             0x2323cdc5
         };
         
-        internal static bool IsDriverInPursuit(Ped p)
+        internal static bool IsPedInPursuit(Ped p)
         {
             if(Functions.GetActivePursuit() == null) return false;
             return Functions.GetPursuitPeds(Functions.GetActivePursuit()).Contains(p);
@@ -55,13 +55,13 @@ namespace Opticom
                 NativeFunction.Natives.SET_ENTITY_TRAFFICLIGHT_OVERRIDE(trafficLight, 0);
                 foreach (Vehicle v in nearbyVehs)
                 {
-                    if ((v && v.Driver) && (v == Player.CurrentVehicle || IsDriverInPursuit(v.Driver) || v.Model.IsEmergencyVehicle)) continue;
+                    if ((v && v.Driver) && (v == Player.CurrentVehicle || IsPedInPursuit(v.Driver) || v.Model.IsEmergencyVehicle)) continue;
                     if(v && v.Driver) v.Driver.Tasks.PerformDrivingManeuver(v, VehicleManeuver.GoForwardStraightBraking, 2000);
                 }
 
                 foreach (Ped p in nearbyPeds)
                 {
-                    if (p && p.IsInAnyVehicle(false)) continue;
+                    if (p && (p.IsInAnyVehicle(false) || IsPedInPursuit(p))) continue;
                     if (p) p.Tasks.StandStill(2000);
                 }
                 GameFiber.Wait(TRAFFIC_LIGHT_GREEN_DURATION_MS);
