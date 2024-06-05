@@ -6,6 +6,7 @@ namespace Opticom
     internal class Settings
     {
         internal static Keys ToggleKey = Keys.F6;
+        internal static bool SirenMustBeOn = false;
         internal static InitializationFile iniFile;
         
         internal static void Initialize()
@@ -15,6 +16,7 @@ namespace Opticom
                 iniFile = new InitializationFile(@"Plugins/LSPDFR/Opticom.ini");
                 iniFile.Create();
                 ToggleKey = iniFile.ReadEnum("Keybinds", "ToggleKey", ToggleKey);
+                SirenMustBeOn = iniFile.ReadBoolean("General", "SirenMustBeOn", SirenMustBeOn);
             }
             catch(System.Exception e)
             {

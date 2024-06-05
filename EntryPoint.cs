@@ -43,6 +43,8 @@ namespace Opticom
             return Functions.GetPursuitPeds(Functions.GetActivePursuit()).Contains(p);
         } 
         
+        
+        
         internal static void SetTrafficLightGreen(Object trafficLight)
         {
             GameFiber.StartNew(() =>
@@ -94,7 +96,7 @@ namespace Opticom
                     GameFiber.Yield();
                     if (!IsOpticomOn || TrafficStopped) continue;
                     GameFiber.Wait(TRAFFIC_LIGHT_POLL_FREQUENCY_MS);
-                    if (Player.IsInAnyVehicle(false) && Player.CurrentVehicle)
+                    if (Player.IsInAnyVehicle(false) && Player.CurrentVehicle && (Settings.SirenMustBeOn && Player.CurrentVehicle.IsSirenOn))
                     {
                         Vector3 position = Player.Position;
                         float heading = Player.Heading;
